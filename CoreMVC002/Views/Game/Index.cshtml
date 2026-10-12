@@ -1,0 +1,15 @@
+﻿@model XAXBEngine
+
+<h2>1A2B猜數字遊戲</h2>
+
+@using (Html.BeginForm("Guess", "Game", FormMethod.Post))
+{
+    <label for="guess">請輸入你的猜測：</label>
+    <input type="text" id="guess" name="Guess" value="@Model.Guess" />
+    <input type="submit" value="猜！" />
+}
+
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <p>猜測結果：@Model.Result</p>
+}

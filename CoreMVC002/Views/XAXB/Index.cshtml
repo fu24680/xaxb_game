@@ -1,0 +1,57 @@
+﻿@model CoreMVC002.Models.XAXBEngine
+
+@{
+    ViewData["Title"] = "XAXB 猜數字遊戲";
+}
+
+<h2>XAXB 猜數字遊戲</h2>
+
+@if (!Model.IsSuccess)
+{
+    <form asp-action="Guess" method="post">
+        <div class="form-group">
+            <label>請輸入 4 位不重複數字：</label>
+            <input type="text" name="userGuess" maxlength="4" class="form-control" style="width: 200px; display:inline-block;" required />
+            <button type="submit" class="btn btn-primary">猜!</button>
+        </div>
+        <span class="text-danger">@Html.ValidationSummary()</span>
+    </form>
+}
+else
+{
+    <div class="alert alert-success">
+        <h4>恭喜答對！總共猜了 @Model.GuessCount 次。</h4>
+        <a asp-action="Restart" class="btn btn-success">重新再玩一次</a>
+    </div>
+}
+
+<hr />
+<h4>累計猜測次數：@Model.GuessCount</h4>
+
+<h4>歷史紀錄：</h4>
+<table class="table table-bordered" style="width: 400px;">
+    <thead>
+        <tr>
+            <th>次數</th>
+            <th>輸入數字</th>
+            <th>結果</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.History)
+        {
+            <tr>
+                <td>@record.Count</td>
+                <td>@record.Guess</td>
+                <td>@record.Result</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.IsSuccess && Model.GuessCount > 0)
+{
+    <p>
+        <a asp-action="Restart" class="btn btn-secondary">放棄重來</a>
+    </p>
+}
